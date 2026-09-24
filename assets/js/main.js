@@ -16,6 +16,21 @@
       )
       .join('');
 
+  /* ---------- Reveal on scroll ----------
+   * Set up first so a failure further down can never leave sections hidden. */
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const revealObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      },
+      { threshold: 0.02 }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+    document.documentElement.classList.add('reveal-ready');
+  }
+
   /* ---------- Theme ---------- */
   const root = document.documentElement;
   $('#themeToggle').addEventListener('click', () => {
@@ -205,17 +220,6 @@
       card.style.setProperty('--my', `${e.clientY - r.top}px`);
     });
   });
-
-  /* ---------- Reveal on scroll ---------- */
-  const revealObserver = new IntersectionObserver(
-    (entries, obs) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-      });
-    },
-    { threshold: 0.05 }
-  );
-  document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
   $('#year').textContent = new Date().getFullYear();
 })();
