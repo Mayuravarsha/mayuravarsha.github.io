@@ -168,6 +168,28 @@
 
   renderProjects('All');
 
+  /* ---------- Publications & awards ---------- */
+  $('#publications').innerHTML = PUBLICATIONS.map(
+    (p) => `
+    <article class="publication glass">
+      <div class="pub-label mono">Publication${p.note ? ` · <span class="pub-note">${esc(p.note)}</span>` : ''}</div>
+      <h3>${esc(p.title)}</h3>
+      <p class="muted">${esc(p.authors)}. ${esc(p.venue)}.</p>
+      <a class="pub-doi mono" href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI: ${esc(p.doi)} ${linkIcon}</a>
+    </article>`
+  ).join('');
+
+  $('#awardsGrid').innerHTML = AWARDS.map(
+    (a) => `
+    <div class="award glass">
+      <span class="award-icon" aria-hidden="true">${a.icon}</span>
+      <div>
+        <h3>${esc(a.title)}</h3>
+        <p class="muted">${esc(a.detail)}</p>
+      </div>
+    </div>`
+  ).join('');
+
   /* ---------- Skills ---------- */
   $('#skillsGrid').innerHTML = SKILLS.map(
     (s) => `
