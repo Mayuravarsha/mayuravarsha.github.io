@@ -392,8 +392,33 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
 .project summary::before { content: '+ '; }
 .project details[open] summary::before { content: '− '; }
 
+/* ---------- Publications & awards ---------- */
+.publication { padding: 26px; margin-bottom: 20px; }
+.pub-label { font-size: 0.75rem; color: var(--accent-2); margin-bottom: 8px; }
+.pub-note { color: #f59e0b; }
+.publication h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.publication p { font-size: 0.92rem; }
+.pub-doi { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--accent-2); }
+.pub-doi:hover { text-decoration: underline; }
+.awards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.award { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; }
+.award:hover { transform: translateY(-4px); }
+.award-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.award h3 { font-size: 1.02rem; margin-bottom: 4px; }
+.award p { font-size: 0.88rem; margin: 0; }
+
 /* ---------- Skills ---------- */
-.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
 .skill-card { padding: 24px; }
 .skill-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .skill-icon {
@@ -422,7 +447,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
-  .about-grid, .skills, .projects { grid-template-columns: 1fr; }
+  .about-grid, .skills, .projects, .awards { grid-template-columns: 1fr; }
   .project.featured { grid-column: auto; }
   .stats { grid-template-columns: repeat(2, 1fr); }
 
