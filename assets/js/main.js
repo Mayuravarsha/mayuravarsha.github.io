@@ -133,7 +133,7 @@
   /* ---------- Research ---------- */
   const citation = (p) =>
     `${p.authors.slice(0, -1).join(', ')}, and ${p.authors[p.authors.length - 1]}, "${p.title}," ${p.conference}, ` +
-    `Bangalore, India, ${p.year}, pp. ${p.pages.replace('–', '-')}, doi: ${p.doi}.`;
+    `Bangalore, India, ${p.year}, pp. ${p.pages}, doi: ${p.doi}.`;
 
   $('#publications').innerHTML = PUBLICATIONS.map(
     (p, i) => `
@@ -163,7 +163,7 @@
       await navigator.clipboard.writeText(text);
       showToast('Citation copied (IEEE format)');
     } catch (err) {
-      window.prompt('Copy the citation:', text);
+      window.prompt('Copy the citation', text);
     }
   });
 
@@ -182,9 +182,13 @@
         </div>
       </header>
       ${j.intro ? `<p class="job-intro">${esc(j.intro)}</p>` : ''}
-      <ul class="impact">
-        ${j.highlights.map((h) => `<li><span class="impact-tag mono">${esc(h.tag)}</span><span>${esc(h.text)}</span></li>`).join('')}
-      </ul>
+      ${
+        j.highlights.length
+          ? `<ul class="impact">${j.highlights
+              .map((h) => `<li><span class="impact-tag mono">${esc(h.tag)}</span><span>${esc(h.text)}</span></li>`)
+              .join('')}</ul>`
+          : ''
+      }
     </article>`
   ).join('');
 
