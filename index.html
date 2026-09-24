@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mayuravarsha Peethambara Swamy</title>
-  <meta name="description" content="Mayuravarsha Peethambara Swamy — MS CSE @ Penn State. Machine learning, computer vision, and distributed systems." />
+  <meta name="description" content="Portfolio of Mayuravarsha Peethambara Swamy — machine learning, computer vision and backend systems. MS CSE at Penn State." />
   <meta property="og:title" content="Mayuravarsha Peethambara Swamy" />
-  <meta property="og:description" content="MS CSE @ Penn State · ML, computer vision & backend systems." />
+  <meta property="og:description" content="Machine learning, computer vision and backend systems. MS CSE at Penn State." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%238b5cf6'/><stop offset='1' stop-color='%2322d3ee'/></linearGradient></defs><rect width='64' height='64' rx='16' fill='url(%23g)'/><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='28' fill='white'>MP</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -36,11 +36,10 @@
         <span></span><span></span>
       </button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#research">Research</a></li>
         <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#awards">Awards</a></li>
-        <li><a href="#skills">Skills</a></li>
+        <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
@@ -53,21 +52,22 @@
   <main id="top">
     <!-- HERO -->
     <section class="hero">
-      <p class="eyebrow mono"><span class="dot"></span> Open to ML / SWE opportunities</p>
+      <p class="eyebrow mono"><span class="dot"></span> Open to ML &amp; software engineering roles</p>
       <h1>
         Hi, I'm <span class="gradient-text">Mayuravarsha</span>.<br />
-        I build <span class="typed" id="typed">intelligent systems</span><span class="caret">|</span>
+        I build <span class="typed" id="typed">models that see and hear</span><span class="caret">|</span>
       </h1>
       <p class="lead">
-        MS in Computer Science &amp; Engineering at <strong>Penn State</strong>, working at the intersection of
-        machine learning, computer vision, and reliable backend infrastructure. Award-winning IEEE author,
-        former Application Engineer at IDFC First Bank.
+        I work on machine learning and the backend systems around it. My audio-visual violence-detection
+        paper won <strong>2nd Best Paper at the 2023 IEEE ICAECIS</strong>. At <strong>IDFC First Bank</strong> I
+        built payment and analytics systems, and at <strong>Canyontechs AI</strong> I worked on a production
+        log-monitoring agent. I'm now doing an MS in CSE at <strong>Penn State</strong>.
       </p>
       <div class="cta">
-        <a class="btn btn-primary" href="#projects">View projects
+        <a class="btn btn-primary" href="#work">See my work
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        <a class="btn btn-ghost" href="https://doi.org/10.1109/ICAECIS58353.2023.10170034" target="_blank" rel="noopener">Read the paper</a>
       </div>
       <ul class="socials">
         <li><a href="https://github.com/mayuravarsha" target="_blank" rel="noopener" aria-label="GitHub">
@@ -81,103 +81,89 @@
         </a></li>
       </ul>
 
-      <div class="stats">
-        <div class="stat"><span class="num" data-count="3.89" data-decimals="2">0</span><span class="label">GPA @ Penn State</span></div>
-        <div class="stat"><span class="num" data-count="96.53" data-decimals="2" data-suffix="%">0</span><span class="label">Accuracy, violence detection</span></div>
-        <div class="stat"><span class="num" data-count="6" data-prefix="$" data-suffix="M">0</span><span class="label">Revenue impact at IDFC</span></div>
-        <div class="stat"><span class="num" data-count="2" data-suffix="nd">0</span><span class="label">Best Paper, IEEE ICAECIS</span></div>
-      </div>
+      <dl class="now">
+        <div><dt class="mono">Now</dt><dd>MS CSE, Penn State · Graduate TA for Discrete Mathematics</dd></div>
+        <div><dt class="mono">Before</dt><dd>AI Engineer Intern, Canyontechs AI · Application Engineer, IDFC First Bank</dd></div>
+      </dl>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="section reveal">
-      <h2 class="section-title"><span class="mono">01.</span> About me</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            I'm a graduate student in Computer Science &amp; Engineering at Penn State and a Graduate Teaching Assistant
-            for <strong>CMPSC 360 (Discrete Mathematics)</strong>, after a semester as a Learning Assistant for
-            <strong>CMPSC 200 (Programming for Engineers with MATLAB)</strong>. My work spans deep learning for audio-visual understanding,
-            and the less glamorous-but-essential engineering that makes systems reliable in production.
-          </p>
-          <p>
-            Before grad school I spent two and a half years at <strong>IDFC First Bank</strong>, growing from intern to full-time
-            engineer while building payment APIs in Go,
-            anomaly-detection tooling, and analytics integrations that drove measurable revenue. Most recently, I interned as
-            an <strong>AI Engineer at Canyontechs AI</strong>, working on a production log-monitoring agent.
-          </p>
-          <p>
-            I like problems where careful modeling meets careful systems design &mdash; when a clever cascade saves a GPU
-            forward pass, or a well-placed acknowledgement keeps a message from being lost.
-          </p>
-        </div>
-        <div class="about-card glass">
-          <h3>Education</h3>
-          <div class="edu">
-            <div class="edu-head"><strong>Pennsylvania State University</strong><span class="mono muted">Aug '25 – May '27</span></div>
-            <p>M.S. Computer Science &amp; Engineering</p>
-            <p class="muted">CGPA 3.89 / 4.0 · University Park, PA</p>
-          </div>
-          <div class="edu">
-            <div class="edu-head"><strong>PES University</strong><span class="mono muted">Aug '19 – May '23</span></div>
-            <p>B.Tech Computer Science &amp; Engineering</p>
-            <p class="muted">CGPA 3.6 / 4.0 · Bengaluru, India</p>
-          </div>
-          <div class="chips small">
-            <span>Machine Learning</span><span>Deep Learning</span><span>Computer Vision</span><span>NLP</span>
-            <span>Probability &amp; Stats</span><span>Linear Algebra</span><span>Data Science</span><span>Big Data Analytics</span>
-            <span>Algorithm Design</span><span>Data Structures</span><span>Operating Systems</span><span>Computer Networks</span>
-            <span>DBMS</span><span>Cloud Computing</span><span>Computer Architecture</span>
-          </div>
-        </div>
-      </div>
+    <!-- FEATURED WORK -->
+    <section id="work" class="section reveal">
+      <h2 class="section-title"><span class="mono">01.</span> Selected work</h2>
+      <div id="caseStudies"></div>
+
+      <h3 class="subhead" id="moreHead">More projects</h3>
+      <div class="projects" id="projectGrid"></div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" class="section reveal">
+      <h2 class="section-title"><span class="mono">02.</span> Research</h2>
+      <div id="publications"></div>
     </section>
 
     <!-- EXPERIENCE -->
     <section id="experience" class="section reveal">
-      <h2 class="section-title"><span class="mono">02.</span> Experience</h2>
-      <ol class="timeline" id="timeline"></ol>
+      <h2 class="section-title"><span class="mono">03.</span> Where I've worked</h2>
+      <div class="jobs" id="jobs"></div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="section reveal">
-      <h2 class="section-title"><span class="mono">03.</span> Projects</h2>
-      <div class="filters" id="filters" role="tablist" aria-label="Filter projects"></div>
-      <div class="projects" id="projectGrid"></div>
-    </section>
-
-    <!-- PUBLICATIONS & AWARDS -->
-    <section id="awards" class="section reveal">
-      <h2 class="section-title"><span class="mono">04.</span> Publications &amp; awards</h2>
-      <div id="publications"></div>
-      <div class="awards" id="awardsGrid"></div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="section reveal">
-      <h2 class="section-title"><span class="mono">05.</span> Skills</h2>
-      <div class="skills" id="skillsGrid"></div>
+    <!-- ABOUT -->
+    <section id="about" class="section reveal">
+      <h2 class="section-title"><span class="mono">04.</span> About</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I like problems where good modeling and good systems design meet. For example, a cheap audio model
+            that means an expensive video model doesn't have to run, or an acknowledgement sent at exactly the
+            right time so a message can't be lost.
+          </p>
+          <p>
+            I'm a master's student in Computer Science &amp; Engineering at Penn State. I also teach: I'm a
+            Graduate TA for <em>CMPSC 360: Discrete Mathematics</em>, and before that I was a Learning Assistant for
+            <em>CMPSC 200: Programming for Engineers with MATLAB</em>. Before grad school I spent two and a half years
+            at IDFC First Bank, where I joined as an intern and stayed on full-time.
+          </p>
+          <dl class="edu">
+            <div>
+              <dt>Penn State University</dt>
+              <dd>M.S. Computer Science &amp; Engineering · GPA 3.89 · Aug 2025 – May 2027</dd>
+            </div>
+            <div>
+              <dt>PES University, Bengaluru</dt>
+              <dd>B.Tech Computer Science &amp; Engineering · Aug 2019 – May 2023 · MRD Scholarship, awarded 4 times</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="toolbox glass">
+          <h3>Toolbox</h3>
+          <div id="toolbox"></div>
+        </div>
+      </div>
     </section>
 
     <!-- CONTACT -->
     <section id="contact" class="section reveal contact">
-      <h2 class="section-title center"><span class="mono">06.</span> Let's connect</h2>
+      <h2 class="section-title center"><span class="mono">05.</span> Let's talk</h2>
       <p class="lead center">
-        I'm currently looking for opportunities in machine learning and software engineering.
-        Whether you have a role, a research idea, or just want to say hi &mdash; my inbox is open.
+        I'm looking for roles in machine learning and software engineering. If you're hiring, have a research
+        idea, or want to talk about one of these projects, send me an email.
       </p>
       <div class="cta center">
-        <a class="btn btn-primary" href="mailto:mayurvp72@gmail.com">Say hello</a>
+        <a class="btn btn-primary" href="mailto:mayurvp72@gmail.com">mayurvp72@gmail.com</a>
         <a class="btn btn-ghost" href="https://linkedin.com/in/mayuravarsha" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p class="mono">Designed &amp; built by Mayuravarsha Peethambara Swamy · <span id="year"></span></p>
+    <p class="mono">© <span id="year"></span> Mayuravarsha Peethambara Swamy</p>
   </footer>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script src="assets/js/data.js"></script>
+  <script src="assets/js/diagrams.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
