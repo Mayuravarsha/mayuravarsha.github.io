@@ -202,8 +202,8 @@ const EXPERIENCE = [
   },
   {
     company: 'IDFC First Bank',
-    role: 'Application Engineer (joined as an intern)',
-    period: 'Feb 2023 - Jul 2025',
+    role: 'Application Engineer',
+    period: 'Jul 2023 - Jul 2025',
     location: 'Bengaluru, India',
     intro: 'Built customer facing features and internal tools for the mobile and web apps of the bank.',
     highlights: [
@@ -216,12 +216,21 @@ const EXPERIENCE = [
         text: 'Built a fault tolerant Go microservice for utility bill autopay on the Bharat Bill Payment System (BBPS). It was designed to handle 1,200 transactions per second.',
       },
       {
-        tag: 'Front end',
-        text: 'Rebuilt customer onboarding and payment flows in React which increased new customers onboarded by 12%.',
-      },
-      {
         tag: 'Monitoring',
         text: 'Built an anomaly detection portal with React, Go and MongoDB with scheduled email alerts using Airflow.',
+      },
+    ],
+  },
+  {
+    company: 'IDFC First Bank',
+    role: 'Application Engineer Intern',
+    period: 'Feb 2023 - Jun 2023',
+    location: 'Bengaluru, India',
+    intro: 'Worked on the customer acquisition and payment journeys of the bank.',
+    highlights: [
+      {
+        tag: 'Front end',
+        text: 'Rebuilt customer onboarding and payment flows in React using lazy loading, memoisation and code splitting. New customers onboarded went up by 12% in the following quarter.',
       },
     ],
   },
