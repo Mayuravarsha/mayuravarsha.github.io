@@ -22,7 +22,7 @@ const CASE_STUDIES = [
   {
     id: 'violence-detection',
     kicker: 'Research · Deep learning · 2023',
-    title: 'Detecting violence in videos by listening first',
+    title: 'Detection of Violent Content in Videos using Audio Visual Features',
     badge: '2nd Best Paper Award at the 2023 IEEE ICAECIS',
     pitch:
       'A two stage audio visual model that flags violent video clips. A small audio CNN checks every clip first and a much heavier 3D convolutional video model runs only when the audio model does not find violence.',
@@ -101,7 +101,7 @@ const PROJECTS = [
     title: 'Customer onboarding and payment flows',
     kicker: 'Front end · IDFC First Bank',
     summary:
-      'Rebuilt the customer acquisition journeys and payment screens of the bank in React. Made new screens and components and connected them to backend APIs. Lazy loading, memoisation and code splitting kept the pages fast. New customers onboarded went up by 12%.',
+      'Rebuilt the customer acquisition journeys and payment screens of the bank in React. Made new screens and components and connected them to backend APIs. New customers onboarded went up by 12%.',
     stack: ['React', 'JavaScript', 'REST APIs'],
     links: [],
   },
@@ -115,7 +115,7 @@ const PROJECTS = [
   },
   {
     title: 'Splunk connector for a log monitoring agent',
-    kicker: 'Backend · Canyontechs AI',
+    kicker: 'Backend · CanyonTechs AI',
     summary:
       'Two way Splunk support for a production agent written in Go. The agent can read logs from Splunk and send the incidents it detects back to the Splunk HTTP Event Collector. TLS is configurable and failures never block the agent.',
     stack: ['Go', 'Splunk HEC', 'TLS'],
@@ -159,7 +159,7 @@ const PUBLICATIONS = [
 
 const EXPERIENCE = [
   {
-    company: 'Canyontechs AI',
+    company: 'CanyonTechs AI',
     role: 'AI Engineer Intern',
     period: 'Jun 2026 - Aug 2026',
     location: 'San Ramon, CA · Remote',
@@ -230,7 +230,7 @@ const EXPERIENCE = [
     highlights: [
       {
         tag: 'Front end',
-        text: 'Rebuilt customer onboarding and payment flows in React using lazy loading, memoisation and code splitting. New customers onboarded went up by 12% in the following quarter.',
+        text: 'Rebuilt customer onboarding and payment flows in React. New customers onboarded went up by 12% in the following quarter.',
       },
     ],
   },
