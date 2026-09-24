@@ -1,107 +1,238 @@
 /*
- * Site content lives here so it's easy to update without touching layout code.
+ * All site content lives here so it can be updated without touching layout code.
  *
- * To add a project, copy one of the objects in PROJECTS and edit it:
- *   title    - project name
- *   period   - optional, e.g. "2023"
- *   tags     - categories used by the filter buttons (e.g. "ML", "Systems", "Web")
- *   stack    - technologies shown as chips
- *   summary  - one or two sentences shown on the card
- *   points   - optional bullet list shown when the card is expanded
- *   badge    - optional highlight label (e.g. "Award")
- *   links    - optional list of { label, url } (GitHub, paper, demo, ...)
- *   featured - optional; featured cards span wider on large screens
+ * CASE_STUDIES - the large, in-depth project write-ups at the top of the page.
+ *   kicker     - small label above the title, e.g. "Research · 2023"
+ *   badge      - optional highlight ribbon
+ *   pitch      - one or two sentences on what it is
+ *   problem    - why it was worth building
+ *   approach   - list of { head, body } steps
+ *   results    - list of { value, label } big numbers, or omit and use `guarantees`
+ *   guarantees - list of short strings shown as a checklist
+ *   diagram    - key into DIAGRAMS (assets/js/diagrams.js), optional
+ *   stack, links ({ label, url })
+ *
+ * PROJECTS - smaller cards under "More projects". Copy an entry to add one:
+ *   { title, kicker, summary, stack: [], links: [] }
+ *
+ * Writing style for all text: short plain sentences, no em dashes, colons or semicolons.
  */
 
-const EXPERIENCE = [
+const CASE_STUDIES = [
   {
-    role: 'AI Engineer Intern',
-    company: 'Canyontechs AI',
-    location: 'San Ramon, CA (Remote)',
-    period: "Jun '26 – Aug '26",
-    points: [
-      'Added bidirectional Splunk integration to a production Go log-monitoring agent — pulling logs from Splunk as a source and pushing detected incidents to a Splunk HEC endpoint with TLS and non-blocking failure handling.',
-      "Extended a multi-language log parser to recognize output from Rust's structured tracing crate, adding regex triggers and incident extraction with context capture for previously missed structured errors.",
+    id: 'violence-detection',
+    kicker: 'Research · Deep learning · 2023',
+    title: 'Detecting violence in videos by listening first',
+    badge: '2nd Best Paper Award at the 2023 IEEE ICAECIS',
+    pitch:
+      'A two stage audio visual model that flags violent video clips. A small audio CNN checks every clip first and a much heavier 3D convolutional video model runs only when the audio model does not find violence.',
+    problem:
+      'Running a video network on every single clip is expensive. Many violent scenes can be recognised from their sound alone. So the idea was to keep accuracy high without running the costly video model on every clip.',
+    approach: [
+      {
+        head: 'Data pipeline that fits in memory',
+        body: 'FFmpeg extracts lossless WAV audio from the MP4 and AVI files. The video is cut into 16 frame chunks resized to 112×112. Both are saved as NumPy memory maps so training streams all 15,648 chunks from disk instead of keeping them in RAM.',
+      },
+      {
+        head: 'Audio model',
+        body: 'The audio is converted into STFT spectrograms and passed to a 7 layer CNN with 7,849,249 parameters. Every convolution block uses batch normalisation, dropout and L1/L2 regularisation because the training set has only 938 samples.',
+      },
+      {
+        head: 'Video model',
+        body: 'C3D pretrained on Sports-1M is used as a frozen feature extractor. Only a dense head with 4.7M parameters is trained. That is 51% fewer trainable parameters than ConvLSTM (9.6M) and 36% fewer than EfficientNet (7.4M) with similar accuracy.',
+      },
+      {
+        head: 'Cascade and evaluation',
+        body: 'If the audio model predicts violence the pipeline stops there. The C3D model runs only on clips that the audio model marks as non violent. The whole system was tested with stratified shuffle split cross validation on four benchmark datasets. These are Violent Flows, Movies, Hockey Fights and RLVS.',
+      },
     ],
-    stack: ['Go', 'Splunk', 'Rust', 'TLS'],
+    results: [
+      { value: '96.53%', label: 'average accuracy across 4 benchmark datasets' },
+      { value: '4.7M', label: 'trainable parameters in the video head compared to 9.6M for ConvLSTM' },
+      { value: '2nd', label: 'Best Paper out of 1,300+ papers at the 2023 IEEE ICAECIS' },
+    ],
+    diagram: 'violence',
+    stack: ['Python', 'TensorFlow / Keras', 'OpenCV', 'NumPy', 'FFmpeg'],
+    links: [
+      { label: 'Read the paper on IEEE Xplore', url: 'https://doi.org/10.1109/ICAECIS58353.2023.10170034' },
+      { label: 'Publication details', url: '#research' },
+    ],
   },
   {
-    role: 'Graduate Teaching Assistant',
-    company: 'Penn State — CMPSC 360',
-    location: 'University Park, PA',
-    period: "Aug '26 – May '27",
-    points: ['Teaching assistant for Discrete Mathematics for computer science undergraduates.'],
-    stack: ['Discrete Math', 'Teaching'],
-  },
-  {
-    role: 'Application Engineer',
-    company: 'IDFC First Bank',
-    location: 'Bengaluru, India',
-    period: "Feb '23 – Jul '25",
-    points: [
-      "Integrated CleverTap SDKs and tracking events across the bank's mobile and web apps to surface drop-off points, enabling targeted campaigns that drove a $6M revenue increase and a 10% rise in engagement.",
-      'Built a Go API enabling autopay for utility bills, compatible with the Bharat Bill Payment System (BBPS).',
-      'Developed an end-to-end anomaly-detection event portal (React, Go, MongoDB) with automated email alerts on configurable Airflow DAG schedules — hourly, daily, weekly, monthly.',
+    id: 'ride-matching',
+    kicker: 'Distributed systems',
+    title: 'A ride matching backend that never loses a request',
+    pitch:
+      'A containerised ride hailing backend. Matching and saving to the database run on separate RabbitMQ queues. So a slow database write never delays a match and a crashed worker never drops a ride.',
+    problem:
+      'When a backend matches rides and saves them in the same request, every slow database write adds delay to matching. And if a worker crashes in the middle of a match that rider is left waiting with no reply.',
+    approach: [
+      {
+        head: 'Publish to two queues',
+        body: 'A Flask producer sends every ride request to two queues. The work queue feeds matching workers that can be scaled out horizontally. The persistence queue feeds a MongoDB writer. Both paths share the same request ID so they can be matched later.',
+      },
+      {
+        head: 'At least once delivery',
+        body: 'All messages are persistent and a worker sends the acknowledgement only after the work is complete. Each worker takes just one message at a time (prefetch of 1). So if a worker dies in the middle RabbitMQ gives that ride to another worker.',
+      },
     ],
-    stack: ['Go', 'React', 'MongoDB', 'Airflow', 'CleverTap'],
+    guarantees: [
+      'Matching speed is not affected by database writes',
+      'Matching workers scale horizontally',
+      'Rides in progress survive worker crashes',
+      'Fully containerised with Docker',
+    ],
+    diagram: 'rides',
+    stack: ['Python', 'Flask', 'RabbitMQ', 'MongoDB', 'Docker'],
+    links: [],
   },
 ];
 
 const PROJECTS = [
   {
-    title: 'Violent Content Detection in Videos',
-    period: '2023',
-    featured: true,
-    badge: '2nd Best Paper · IEEE ICAECIS',
-    tags: ['ML', 'Computer Vision', 'Research'],
-    stack: ['Python', 'TensorFlow/Keras', 'OpenCV', 'NumPy', 'FFmpeg'],
+    title: 'Age and gender estimation in videos',
+    kicker: 'Computer vision',
     summary:
-      'A cascaded audio-visual deep learning system that detects violence in video — a lightweight audio CNN short-circuits, and a C3D video model only runs when needed. 96.53% mean accuracy across four benchmark datasets.',
-    points: [
-      'Preprocessing pipeline: lossless WAV extraction with FFmpeg, 16-frame 112×112 video chunks, serialized to NumPy memory maps to stream 15,648 chunks from disk.',
-      'Audio branch: STFT spectrograms into a 7-layer CNN (7.8M params) with batch norm, dropout and L1/L2 regularization.',
-      'Video branch: transfer learning with frozen C3D (Sports-1M) features and a 4.7M-param dense head — 51% fewer trainable params than ConvLSTM, 36% fewer than EfficientNet.',
-      'Published and presented at IEEE ICAECIS 2023; 2nd Best Paper among 1,300+ papers from 30+ countries.',
-    ],
+      'Estimates age and gender from faces in videos to get demographic insights. YOLOv10 finds the faces and a two stream network refines the prediction in multiple stages from coarse to fine. VGG-Face and AgeNet were added to make it more robust. It reached 95.5% average accuracy with a smaller model.',
+    stack: ['Python', 'YOLOv10', 'VGG-Face', 'AgeNet'],
     links: [],
   },
   {
-    title: 'Distributed Ride-Matching Service',
-    tags: ['Systems', 'Backend'],
-    stack: ['Python', 'Flask', 'RabbitMQ', 'MongoDB', 'Docker'],
+    title: 'Customer onboarding and payment flows',
+    kicker: 'Front end · IDFC First Bank',
     summary:
-      'A containerized ride-hailing backend where a Flask producer fans each request out to a matching work queue and a persistence queue, decoupling match latency from request handling.',
-    points: [
-      'Horizontally scaled matching workers and a MongoDB writer, correlated by a shared request ID.',
-      'At-least-once delivery via persistent messages, post-work acknowledgements, and prefetch=1 so in-flight rides are requeued if a worker dies.',
-    ],
+      'Rebuilt the customer acquisition journeys and payment screens of the bank in React. Made new screens and components and connected them to backend APIs. Lazy loading, memoisation and code splitting kept the pages fast. New customers onboarded went up by 12%.',
+    stack: ['React', 'JavaScript', 'REST APIs'],
     links: [],
   },
   {
-    title: 'Splunk Integration for a Log-Monitoring Agent',
-    period: '2026',
-    tags: ['Systems', 'Backend'],
-    stack: ['Go', 'Splunk HEC', 'TLS'],
+    title: 'Event anomaly detection portal',
+    kicker: 'Full stack · IDFC First Bank',
     summary:
-      'Bidirectional Splunk support for a production Go agent: ingest logs from Splunk and ship detected incidents back over HEC with TLS and non-blocking failure handling.',
-    links: [],
-  },
-  {
-    title: 'Event Anomaly-Detection Portal',
-    period: '2024',
-    tags: ['Web', 'Backend', 'Data'],
+      'A portal to track app events and catch unusual user behaviour. Airflow DAGs send email alerts when event counts look abnormal. Teams can set the schedule to hourly, daily, weekly or monthly.',
     stack: ['React', 'Go', 'MongoDB', 'Airflow'],
+    links: [],
+  },
+  {
+    title: 'Splunk connector for a log monitoring agent',
+    kicker: 'Backend · Canyontechs AI',
     summary:
-      'End-to-end portal for tracking app events and flagging abnormal counts and unusual user interactions, with automated alerts on configurable Airflow DAG schedules.',
+      'Two way Splunk support for a production agent written in Go. The agent can read logs from Splunk and send the incidents it detects back to the Splunk HTTP Event Collector. TLS is configurable and failures never block the agent.',
+    stack: ['Go', 'Splunk HEC', 'TLS'],
+    links: [],
+  },
+  {
+    title: 'Used car sales prediction',
+    kicker: 'Machine learning',
+    summary:
+      'Predicts how likely a used car is to sell. Compared an MLP with XGBoost and Random Forest after hyperparameter tuning and checked results with stratified k-fold cross validation. Reached 93.2% accuracy. Also ran hypothesis tests to check common beliefs about used car sales.',
+    stack: ['Python', 'scikit-learn', 'XGBoost', 'Pandas'],
+    links: [],
+  },
+  {
+    title: 'Pharmacy management system',
+    kicker: 'Desktop app · Databases',
+    summary:
+      'A desktop app for managing stock, prescriptions and billing with role based access. Built with Tkinter on top of PostgreSQL. Uses transactions through psycopg2 so the data stays consistent.',
+    stack: ['Python', 'Tkinter', 'PostgreSQL', 'psycopg2'],
     links: [],
   },
 ];
 
-const SKILLS = [
-  { group: 'Languages', icon: '⌨', items: ['Python', 'C', 'C++', 'Java', 'Go', 'Rust', 'JavaScript', 'SQL', 'MATLAB'] },
-  { group: 'ML / Data', icon: '◈', items: ['PyTorch', 'TensorFlow/Keras', 'scikit-learn', 'OpenCV', 'NumPy', 'Pandas', 'Spark', 'Airflow'] },
-  { group: 'Infrastructure', icon: '⧉', items: ['Docker', 'Kubernetes', 'AWS', 'Kafka', 'RabbitMQ', 'Redis', 'Elasticsearch', 'Grafana', 'Jaeger', 'Splunk', 'Git', 'Unix'] },
-  { group: 'Databases', icon: '⛁', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Oracle'] },
+const PUBLICATIONS = [
+  {
+    title: 'Detection of Violent Content in Videos using Audio Visual Features',
+    authors: ['R. KS', 'M. P', 'Y. S. Kanchan', 'P. MR', 'R. Ravish'],
+    me: 'M. P',
+    conference:
+      '2023 International Conference on Advances in Electronics, Communication, Computing and Intelligent Information Systems (ICAECIS)',
+    place: 'Bengaluru, India',
+    publisher: 'IEEE',
+    pages: '600-605',
+    year: 2023,
+    doi: '10.1109/ICAECIS58353.2023.10170034',
+    award: '2nd Best Paper Award out of 1,300+ papers from authors in 30+ countries',
+    role: 'Co-author and presenter. I built the data pipeline and the audio and video models and designed the cascaded inference.',
+    caseStudy: '#violence-detection',
+  },
 ];
 
-const TYPED_WORDS = ['intelligent systems', 'computer vision models', 'reliable backends', 'data pipelines'];
+const EXPERIENCE = [
+  {
+    company: 'Canyontechs AI',
+    role: 'AI Engineer Intern',
+    period: 'Jun 2026 - Aug 2026',
+    location: 'San Ramon, CA · Remote',
+    intro: 'Worked on a production log monitoring agent written in Go that finds incidents in application logs.',
+    highlights: [
+      {
+        tag: 'Splunk',
+        text: 'Added two way Splunk support so the agent can pull logs from Splunk and push the incidents it finds to a Splunk HTTP Event Collector with configurable TLS.',
+      },
+      {
+        tag: 'Rust',
+        text: "Extended the log parser to understand the output of Rust's tracing crate so it now catches structured errors it used to miss.",
+      },
+      {
+        tag: 'Full stack',
+        text: 'Built an in-app contact form with React and FastAPI that automatically opens confidential GitLab issues.',
+      },
+    ],
+  },
+  {
+    company: 'Penn State University',
+    role: 'Graduate Teaching Assistant',
+    period: 'Aug 2026 - May 2027',
+    location: 'University Park, PA',
+    intro: 'Teaching assistant for CMPSC 360 (Discrete Mathematics).',
+    highlights: [],
+  },
+  {
+    company: 'Penn State University',
+    role: 'Learning Assistant',
+    period: 'Jan 2026 - May 2026',
+    location: 'University Park, PA',
+    intro: 'Learning Assistant for CMPSC 200 (Programming for Engineers with MATLAB).',
+    highlights: [
+      {
+        tag: 'MATLAB',
+        text: 'Helped students with algorithm development, control structures and numerical methods in MATLAB through guided problem solving. Also evaluated assessments and gave feedback.',
+      },
+    ],
+  },
+  {
+    company: 'IDFC First Bank',
+    role: 'Application Engineer (joined as an intern)',
+    period: 'Feb 2023 - Jul 2025',
+    location: 'Bengaluru, India',
+    intro: 'Built customer facing features and internal tools for the mobile and web apps of the bank.',
+    highlights: [
+      {
+        tag: '$6M',
+        text: 'Integrated CleverTap analytics across the mobile and web apps to find where users drop off. The targeted campaigns that followed brought in $6M of extra revenue and 10% higher engagement.',
+      },
+      {
+        tag: 'Payments',
+        text: 'Built a fault tolerant Go microservice for utility bill autopay on the Bharat Bill Payment System (BBPS). It was designed to handle 1,200 transactions per second.',
+      },
+      {
+        tag: 'Front end',
+        text: 'Rebuilt customer onboarding and payment flows in React which increased new customers onboarded by 12%.',
+      },
+      {
+        tag: 'Monitoring',
+        text: 'Built an anomaly detection portal with React, Go and MongoDB with scheduled email alerts using Airflow.',
+      },
+    ],
+  },
+];
+
+const TOOLBOX = [
+  { group: 'Languages', items: ['Python', 'Go', 'JavaScript', 'C++', 'Rust', 'Java', 'SQL'] },
+  { group: 'Front end', items: ['React', 'HTML', 'CSS', 'Node.js', 'Responsive UI', 'Web performance'] },
+  { group: 'Machine learning', items: ['PyTorch', 'TensorFlow / Keras', 'scikit-learn', 'OpenCV', 'NumPy', 'Pandas'] },
+  { group: 'Backend and systems', items: ['FastAPI', 'Flask', 'Docker', 'Kubernetes', 'RabbitMQ', 'Kafka', 'Redis', 'Airflow', 'Splunk', 'AWS', 'GCP'] },
+  { group: 'Databases', items: ['PostgreSQL', 'MongoDB', 'MySQL', 'Elasticsearch'] },
+];
+
+const TYPED_WORDS = ['models that see and hear', 'clean and fast web apps', 'backends that do not drop messages', 'data pipelines'];
