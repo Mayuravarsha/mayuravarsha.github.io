@@ -56,6 +56,7 @@ const CASE_STUDIES = [
     links: [
       { label: 'Read the paper on IEEE Xplore', url: 'https://doi.org/10.1109/ICAECIS58353.2023.10170034' },
       { label: 'Publication details', url: '#research' },
+      { label: 'View code on GitHub', url: 'https://github.com/Mayuravarsha/CAPSTONE' },
     ],
   },
   {
@@ -133,9 +134,9 @@ const PROJECTS = [
     title: 'Pharmacy management system',
     kicker: 'Desktop app · Databases',
     summary:
-      'A desktop app for managing stock, prescriptions and billing with role based access. Built with Tkinter on top of PostgreSQL. Uses transactions through psycopg2 so the data stays consistent.',
+      'A desktop app for managing stock, prescriptions and billing with role based access. Built with Tkinter on top of PostgreSQL. Every change is committed to PostgreSQL through psycopg2 as soon as it runs.',
     stack: ['Python', 'Tkinter', 'PostgreSQL', 'psycopg2'],
-    links: [],
+    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/Pharmacy-management-system' }],
   },
 ];
 
