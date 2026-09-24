@@ -509,8 +509,9 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 /* ---------- Reveal ---------- */
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal.visible { opacity: 1; transform: none; }
+/* Sections are only hidden once main.js has set up the observer, so content stays visible if scripts fail. */
+.reveal-ready .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-ready .reveal.visible { opacity: 1; transform: none; }
 
 /* ---------- Focus ---------- */
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; border-radius: 8px; }
@@ -579,5 +580,5 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; }
+  .reveal-ready .reveal { opacity: 1; transform: none; }
 }
