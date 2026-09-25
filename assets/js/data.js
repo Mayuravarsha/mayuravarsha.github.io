@@ -148,12 +148,20 @@ const PROJECTS = [
     links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/IPCV' }],
   },
   {
-    title: 'Wordle with an information theory solver',
-    kicker: 'Algorithms',
+    title: 'Memory match card game',
+    kicker: 'Java · Object oriented design',
     summary:
-      'A terminal Wordle game with hard mode and a helper for the daily puzzle. The solver picks the guess that is expected to give the most information. All 11 million guess and answer patterns are precomputed with NumPy. It solves every word in its list in 3.23 guesses on average.',
-    stack: ['Python', 'NumPy'],
-    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/Wordle' }],
+      'A Swing card matching game with easy and hard boards, a move counter and timer, undo in easy mode and a saved top ten leaderboard. The game rules live in a model with no Swing code and the window follows it through an observer interface. 14 JUnit tests cover the rules and the leaderboard.',
+    stack: ['Java', 'Swing', 'JUnit', 'Maven'],
+    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/I23_MemoryBasedCardGame' }],
+  },
+  {
+    title: 'Real time colour object tracking',
+    kicker: 'Computer vision',
+    summary:
+      'Finds red, green or blue objects in a webcam feed or video and draws their boxes and positions. Built first in MATLAB with a tested Python and OpenCV port. The Python version also follows each object from frame to frame so it keeps its ID and a trail of where it moved.',
+    stack: ['MATLAB', 'Python', 'OpenCV'],
+    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/Detecting-RGB-using-MATLAB' }],
   },
 ];
 
