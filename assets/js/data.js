@@ -82,10 +82,11 @@ const CASE_STUDIES = [
       'Matching workers scale horizontally',
       'Rides in progress survive worker crashes',
       'Fully containerised with Docker',
+      'Redelivered rides never create duplicate records',
     ],
     diagram: 'rides',
     stack: ['Python', 'Flask', 'RabbitMQ', 'MongoDB', 'Docker'],
-    links: [],
+    links: [{ label: 'View code on GitHub', url: 'https://github.com/Mayuravarsha/ride-matching-rabbitmq' }],
   },
 ];
 
