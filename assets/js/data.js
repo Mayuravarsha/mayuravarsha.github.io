@@ -123,20 +123,36 @@ const PROJECTS = [
     links: [],
   },
   {
-    title: 'Used car sales prediction',
+    title: 'Used car price prediction',
     kicker: 'Machine learning',
     summary:
-      'Predicts how likely a used car is to sell. Compared an MLP with XGBoost and Random Forest after hyperparameter tuning and checked results with stratified k-fold cross validation. Reached 93.2% accuracy. Also ran hypothesis tests to check common beliefs about used car sales.',
-    stack: ['Python', 'scikit-learn', 'XGBoost', 'Pandas'],
-    links: [],
+      'Predicts the asking price of a used car from 426k Craigslist listings. Removing placeholder prices and re-posted cars mattered as much as the model choice. LightGBM with native categorical features reached R² 0.85 on log price with a 13% median error. That beats ridge regression, random forest and a make and year baseline.',
+    stack: ['Python', 'LightGBM', 'scikit-learn', 'Pandas'],
+    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/Data-Analytics' }],
   },
   {
     title: 'Pharmacy management system',
     kicker: 'Desktop app · Databases',
     summary:
-      'A desktop app for managing stock, prescriptions and billing with role based access. Built with Tkinter on top of PostgreSQL. Every change is committed to PostgreSQL through psycopg2 as soon as it runs.',
-    stack: ['Python', 'Tkinter', 'PostgreSQL', 'psycopg2'],
+      'A Tkinter app for a chain of pharmacies on PostgreSQL. Billing runs in a PL/pgSQL function that locks the stock row so two tills can never sell the same last units. Employees and admins log in with their own database roles and column level grants hide salaries. 21 tests run against a real database.',
+    stack: ['Python', 'PostgreSQL', 'PL/pgSQL', 'Tkinter'],
     links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/Pharmacy-management-system' }],
+  },
+  {
+    title: 'Night vision enhancement with IR and visible fusion',
+    kicker: 'Computer vision',
+    summary:
+      'Fuses thermal and low light camera images with a wavelet transform and gives the result natural daytime colours. A SIFT search finds the most similar daylight photo and its colour statistics are transferred in Lab space. Built in MATLAB with a tested Python port. On 23 TNO scenes the fused images have about twice the edge detail of the visible frames.',
+    stack: ['MATLAB', 'Python', 'OpenCV', 'PyWavelets'],
+    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/IPCV' }],
+  },
+  {
+    title: 'Wordle with an information theory solver',
+    kicker: 'Algorithms',
+    summary:
+      'A terminal Wordle game with hard mode and a helper for the daily puzzle. The solver picks the guess that is expected to give the most information. All 11 million guess and answer patterns are precomputed with NumPy. It solves every word in its list in 3.23 guesses on average.',
+    stack: ['Python', 'NumPy'],
+    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/Wordle' }],
   },
 ];
 
