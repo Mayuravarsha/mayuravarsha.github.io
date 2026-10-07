@@ -84,5 +84,61 @@ const DIAGRAMS = (() => {
     </svg>`;
   };
 
-  return { violence, rides };
+
+  const lob = () => {
+    const id = 'ah-lob';
+    return `
+    <svg class="diagram" viewBox="0 0 480 452" role="img" aria-labelledby="dg-l-title">
+      <title id="dg-l-title">Market events and the market making strategy feed a C++ order book through a batched pybind11 API. Fills that respect queue position are split into spread capture, adverse selection and net profit per share.</title>
+      ${defs(id)}
+      ${box(20, 12, 200, 48, 'Market events', '400K simulated events')}
+      ${box(260, 12, 200, 48, 'Market making strategy', 'quotes both sides')}
+      ${arrow('M120 60 V74 H230 V94', id)}
+      ${arrow('M360 60 V74 H250 V94', id)}
+      ${box(100, 96, 280, 48, 'pybind11 batch API', 'about 10x faster than one call per event', 'accent')}
+      <rect class="dg-group" x="12" y="166" width="456" height="138" rx="14" />
+      ${label(28, 186, 'C++17 ORDER BOOK', 'lane start')}
+      ${arrow('M240 144 V194', id)}
+      ${box(30, 196, 190, 46, 'Bid levels', 'FIFO queue per price')}
+      ${box(260, 196, 190, 46, 'Ask levels', 'FIFO queue per price')}
+      ${box(130, 252, 220, 42, 'Pool allocator', 'no allocation on the hot path')}
+      ${arrow('M240 304 V324', id)}
+      ${box(90, 326, 300, 48, 'Fills with queue position', 'filled only after orders ahead are gone')}
+      ${arrow('M240 374 V384 H90 V398', id)}
+      ${arrow('M240 374 V396', id)}
+      ${arrow('M240 384 H390 V398', id)}
+      ${box(20, 400, 140, 46, '+1.40¢', 'spread captured')}
+      ${box(170, 400, 140, 46, '−1.05¢', 'adverse selection', 'hot')}
+      ${box(320, 400, 140, 46, '+0.55¢', 'net with +0.20¢ rebate', 'accent')}
+    </svg>`;
+  };
+
+  const options = () => {
+    const id = 'ah-options';
+    return `
+    <svg class="diagram" viewBox="0 0 480 382" role="img" aria-labelledby="dg-o-title">
+      <title id="dg-o-title">Option chains go through an implied volatility solver and an SVI surface fit with arbitrage checks. Price history goes through a GJR-GARCH forecast tested out of sample. The two meet to measure the variance risk premium.</title>
+      ${defs(id)}
+      ${label(22, 76, 'SURFACES', 'lane start')}
+      ${label(458, 76, 'FORECASTING', 'lane end')}
+      ${box(20, 12, 200, 48, 'Option chains', 'SPY · AAPL · TSLA')}
+      ${box(260, 12, 200, 48, 'Price history', 'daily returns')}
+      ${arrow('M120 60 V84', id)}
+      ${arrow('M360 60 V84', id)}
+      ${box(20, 86, 200, 48, 'Implied volatility', 'Black-Scholes · Newton and Brent')}
+      ${box(260, 86, 200, 48, 'GJR-GARCH', 'volatility forecast')}
+      ${arrow('M120 134 V158', id)}
+      ${arrow('M360 134 V158', id)}
+      ${box(20, 160, 200, 48, 'SVI surface fit', 'one smile per expiry')}
+      ${box(260, 160, 200, 48, 'Out of sample test', '2,500 days · QLIKE loss')}
+      ${arrow('M120 208 V232', id)}
+      ${box(20, 234, 200, 48, 'Arbitrage checks', 'butterfly and calendar', 'accent')}
+      ${arrow('M360 208 V316', id)}
+      ${arrow('M120 282 V316', id)}
+      ${label(240, 304, 'implied vs forecast')}
+      ${box(100, 318, 280, 52, 'Variance risk premium', 'about 1 vol point', 'accent')}
+    </svg>`;
+  };
+
+  return { violence, rides, lob, options };
 })();

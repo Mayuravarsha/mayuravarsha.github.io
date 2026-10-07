@@ -60,6 +60,76 @@ const CASE_STUDIES = [
     ],
   },
   {
+    id: 'lob-market-making',
+    kicker: 'Quant · Low latency C++',
+    title: 'Limit order book and market making backtester',
+    pitch:
+      'A price time priority limit order book written in C++17 and exposed to Python with pybind11. An event driven backtester runs a market making strategy on top of it and splits the profit per share into where it actually came from.',
+    problem:
+      'A market making strategy looks profitable on paper until you model where your quote sits in the queue and how often you get picked off. That needs an order book fast enough to replay hundreds of thousands of events and correct enough to trust every fill.',
+    approach: [
+      {
+        head: 'Order book core',
+        body: 'Orders at each price wait in an intrusive FIFO list and come from a pool allocator. So adding, cancelling and matching orders never allocates memory on the hot path. A typical add order takes about 74 nanoseconds. Pre-faulting the pool memory cut the p99 add order latency from about 2.7 to 0.42 microseconds.',
+      },
+      {
+        head: 'Proving it is correct',
+        body: '81 unit tests, a fuzzer that checks the book invariants over 200,000 random operations and a differential test against a separate order book written in Python. The two engines agreed on every one of 200,000 events.',
+      },
+      {
+        head: 'Python bindings',
+        body: 'pybind11 exposes the engine to Python. A batched path that sends many events in one call runs about 10 times faster than calling the engine once per event.',
+      },
+      {
+        head: 'Realistic backtest',
+        body: 'The backtester tracks the queue position of every resting quote, so a quote is filled only after the orders ahead of it are gone. Over 400,000 events of simulated market flow the strategy got 24,505 fills. Profit per share is split into spread captured, adverse selection and the maker rebate.',
+      },
+    ],
+    results: [
+      { value: '2.9M', label: 'events per second through the C++ order book on a 4 core cloud machine' },
+      { value: '0', label: 'mismatches against an independent Python engine over 200K events' },
+      { value: '+0.55¢', label: 'net per share from +1.40¢ spread capture, −1.05¢ adverse selection and a +0.20¢ rebate' },
+    ],
+    diagram: 'lob',
+    stack: ['C++17', 'pybind11', 'Python', 'CMake'],
+    links: [{ label: 'View code on GitHub', url: 'https://github.com/Mayuravarsha/lob-market-making' }],
+  },
+  {
+    id: 'options-vol-engine',
+    kicker: 'Quant · Derivatives pricing',
+    title: 'Options pricing and volatility engine',
+    pitch:
+      'An options library built from scratch in Python. It prices options and their Greeks, solves for implied volatility, fits arbitrage checked volatility surfaces to SPY, AAPL and TSLA option chains and forecasts volatility with GARCH.',
+    problem:
+      'Market option prices are noisy and quoted in ticks, so a surface fitted without care can allow arbitrage. And a pricer is only useful if its Greeks and its Monte Carlo error can be trusted.',
+    approach: [
+      {
+        head: 'Pricing and Greeks',
+        body: 'Black-Scholes prices and Greeks with implied volatility solved by Newton and Brent root finders. 263 automated checks cover put call parity and compare every Greek with a finite difference estimate.',
+      },
+      {
+        head: 'Volatility surfaces',
+        body: 'SVI smiles are fitted to SPY, AAPL and TSLA chains and checked for butterfly arbitrage (Durrleman condition) and calendar arbitrage. On a test surface built from known parameters with added noise and tick rounding the fit recovered the true volatilities with an average error of 0.39 vol points.',
+      },
+      {
+        head: 'Monte Carlo',
+        body: 'Asian options are priced by Monte Carlo with the closed form geometric Asian price as a control variate. That cuts the variance of the estimate by 671 times.',
+      },
+      {
+        head: 'Volatility forecasting',
+        body: 'A GJR-GARCH model forecasts volatility over 2,500 out of sample days and beats a constant volatility forecast by 11.3% on QLIKE loss. Comparing implied with forecast volatility shows a variance risk premium of about 1 vol point.',
+      },
+    ],
+    results: [
+      { value: '671x', label: 'variance reduction for Asian options with a control variate' },
+      { value: '0.39', label: 'vol points average error recovering a known surface from noisy tick rounded quotes' },
+      { value: '11.3%', label: 'better volatility forecasts than constant volatility on QLIKE loss' },
+    ],
+    diagram: 'options',
+    stack: ['Python', 'NumPy', 'SciPy'],
+    links: [{ label: 'View code on GitHub', url: 'https://github.com/Mayuravarsha/options-vol-engine' }],
+  },
+  {
     id: 'ride-matching',
     kicker: 'Distributed systems',
     title: 'A ride matching backend that never loses a request',
@@ -146,22 +216,6 @@ const PROJECTS = [
       'Fuses thermal and low light camera images with a wavelet transform and gives the result natural daytime colours. A SIFT search finds the most similar daylight photo and its colour statistics are transferred in Lab space. Built in MATLAB with a tested Python port. On 23 TNO scenes the fused images have about twice the edge detail of the visible frames.',
     stack: ['MATLAB', 'Python', 'OpenCV', 'PyWavelets'],
     links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/IPCV' }],
-  },
-  {
-    title: 'Memory match card game',
-    kicker: 'Java · Object oriented design',
-    summary:
-      'A Swing card matching game with easy and hard boards, a move counter and timer, undo in easy mode and a saved top ten leaderboard. The game rules live in a model with no Swing code and the window follows it through an observer interface. 14 JUnit tests cover the rules and the leaderboard.',
-    stack: ['Java', 'Swing', 'JUnit', 'Maven'],
-    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/I23_MemoryBasedCardGame' }],
-  },
-  {
-    title: 'Real time colour object tracking',
-    kicker: 'Computer vision',
-    summary:
-      'Finds red, green or blue objects in a webcam feed or video and draws their boxes and positions. Built first in MATLAB with a tested Python and OpenCV port. The Python version also follows each object from frame to frame so it keeps its ID and a trail of where it moved.',
-    stack: ['MATLAB', 'Python', 'OpenCV'],
-    links: [{ label: 'View code', url: 'https://github.com/Mayuravarsha/Detecting-RGB-using-MATLAB' }],
   },
 ];
 
@@ -265,9 +319,10 @@ const EXPERIENCE = [
 const TOOLBOX = [
   { group: 'Languages', items: ['Python', 'Go', 'JavaScript', 'C++', 'Rust', 'Java', 'SQL'] },
   { group: 'Front end', items: ['React', 'HTML', 'CSS', 'Node.js', 'Responsive UI', 'Web performance'] },
-  { group: 'Machine learning', items: ['PyTorch', 'TensorFlow / Keras', 'scikit-learn', 'OpenCV', 'NumPy', 'Pandas'] },
-  { group: 'Backend and systems', items: ['FastAPI', 'Flask', 'Docker', 'Kubernetes', 'RabbitMQ', 'Kafka', 'Redis', 'Airflow', 'Splunk', 'AWS', 'GCP'] },
+  { group: 'Machine learning', items: ['PyTorch', 'TensorFlow / Keras', 'scikit-learn', 'OpenCV', 'NumPy', 'Pandas', 'SciPy'] },
+  { group: 'Quant', items: ['Order books', 'Market making', 'Options and Greeks', 'Volatility surfaces', 'Monte Carlo', 'GARCH'] },
+  { group: 'Backend and systems', items: ['FastAPI', 'Flask', 'Docker', 'Kubernetes', 'RabbitMQ', 'Kafka', 'Redis', 'Airflow', 'Splunk', 'AWS', 'GCP', 'pybind11', 'CMake'] },
   { group: 'Databases', items: ['PostgreSQL', 'MongoDB', 'MySQL', 'Elasticsearch'] },
 ];
 
-const TYPED_WORDS = ['models that see and hear', 'clean and fast web apps', 'backends that do not drop messages', 'data pipelines'];
+const TYPED_WORDS = ['models that see and hear', 'fast order books in C++', 'volatility models', 'backends that do not drop messages', 'clean and fast web apps'];
